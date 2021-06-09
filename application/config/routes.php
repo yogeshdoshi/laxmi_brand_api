@@ -62,6 +62,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['category'] = 'CategoryController';
 $route['admin/product'] = 'api/admin/ProductController/get_product';
 $route['admin/product/(:num)'] = 'api/admin/ProductController/get_product/$1';
+$route['admin/product/detail'] = 'api/admin/ProductController/product_detail';
+$route['admin/product/delete'] = 'api/admin/ProductController/delete';
+$route['admin/product/save'] = 'api/admin/ProductController/insert_product';
+
+
+
+
+$route['admin/category'] = 'api/admin/CategoryController/get_category';
+$route['admin/category/(:num)'] = 'api/admin/CategoryController/get_category/$1';
 // ProductController
 
 $route['default_controller'] = 'welcome';

@@ -1,0 +1,99 @@
+{
+	"id": "9e9dce42-83ba-afec-9a3d-7960b0a9daf7",
+	"name": "ploto API's",
+	"description": "",
+	"order": [
+		"dd45fba9-1d2b-9ee6-0aa6-395a0ef876f1",
+		"c4cdf1e2-cf0a-4354-7ebd-61d84f8f01d4"
+	],
+	"folders_order": [],
+	"folders": [],
+	"owner": "9993933",
+	"hasRequests": true,
+	"requests": [
+		{
+			"id": "c4cdf1e2-cf0a-4354-7ebd-61d84f8f01d4",
+			"name": "Get csv DATA",
+			"description": "",
+			"collectionId": "9e9dce42-83ba-afec-9a3d-7960b0a9daf7",
+			"method": "GET",
+			"headers": "appid: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nappsecret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nContent-Type: application/json",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://admindev.plo.to/ploto/api/getcsvdata?unique_id=xxxxxxxxxxxxxxxxx&start_date=01-05-2019&end_date=22-06-2020",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [
+				{
+					"key": "unique_id",
+					"value": "xxxxxxxxxxxxxxxxx"
+				},
+				{
+					"key": "start_date",
+					"value": "01-05-2019",
+					"description": "dd-mm-yyyy"
+				},
+				{
+					"key": "end_date",
+					"value": "22-06-2020",
+					"description": "dd-mm-yyyy"
+				}
+			],
+			"headerData": [
+				{
+					"key": "appid",
+					"value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+					"type": "text"
+				},
+				{
+					"key": "appsecret",
+					"value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+					"type": "text"
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"type": "text"
+				}
+			],
+			"collection_id": "9e9dce42-83ba-afec-9a3d-7960b0a9daf7"
+		},
+		{
+			"id": "dd45fba9-1d2b-9ee6-0aa6-395a0ef876f1",
+			"name": "campaign list",
+			"description": "",
+			"collectionId": "9e9dce42-83ba-afec-9a3d-7960b0a9daf7",
+			"method": "GET",
+			"headers": "appid: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nappsecret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nContent-Type: application/json",
+			"data": [],
+			"rawModeData": "",
+			"url": "https://admindev.plo.to/ploto/api/campaign_list?",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [
+				{
+					"key": "",
+					"value": null
+				}
+			],
+			"headerData": [
+				{
+					"key": "appid",
+					"type": "text",
+					"value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+				},
+				{
+					"key": "appsecret",
+					"type": "text",
+					"value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"type": "text"
+				}
+			],
+			"collection_id": "9e9dce42-83ba-afec-9a3d-7960b0a9daf7"
+		}
+	]
+}
