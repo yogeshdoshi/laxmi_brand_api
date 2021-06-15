@@ -16,8 +16,10 @@ class ProductModel extends CI_Model {
             ),
             'data' => array(
                 'getType'   => 'result',
-                'tableName' => 'product_master',
-                'select'    => 'pdt_id,pdt_name,category_id,is_active,pdt_about,created_date,populairty',
+                'tableName' => 'product_master as s',
+                'select'    => 's.*,c.is_active as varient_isactive,c.*',
+                'joinType' => "Left",
+				'join' => array('product_variants as c' => 's.pdt_id = c.pdt_id'),
                 'where' 	=> $where,
                 'orderBy' => $order_by
             )
@@ -31,12 +33,13 @@ class ProductModel extends CI_Model {
 
     function fetch_single_product($id)
 	{
-        $where="pdt_id = ".$id;
         $data= array(
-            'getType'   => 'result',
-            'tableName' => 'product_master',
-            'select'    => 'pdt_id,pdt_name,category_id,is_active,pdt_about,created_date,populairty',
-            'where'	 	=> array('is_deleted' => NULL, 'pdt_id' => $id)
+            'getType'   => 'rowArray',
+            'tableName' => 'product_master as s',
+            'select'    => 's.*,c.is_active as varient_isactive,c.*',
+            'joinType' => "Left",
+            'join' => array('product_variants as c' => 's.pdt_id = c.pdt_id'),
+            'where'	 	=> array('s.is_deleted' => NULL, 's.pdt_id' => $id)
         );
 		$result = $this->MY_Model->getData($data);
 		return $result;
@@ -67,6 +70,50 @@ class ProductModel extends CI_Model {
 
         return $this->MY_Model->insertData($array);
     }
+
+    function save_varient($data)
+    {
+        $array = array(
+            'tableName' => 'product_variants',
+            'insert'    =>  $data
+        );
+        return $this->MY_Model->insertData($array);
+    }
+
+    function update_product($id,$array)
+    {
+        $array = array(
+            'tableName' => 'product_master',
+            'update'    =>  $array,
+            'where'    => array(
+                'pdt_id' => $id
+            )
+        );
+        $this->MY_Model->updateData($array);
+
+        $data= array(
+            'getType'   => 'rowArray',
+            'tableName' => 'product_master as s',
+            'select'    => 'c.rowid',
+            'joinType' => "Left",
+            'join' => array('product_variants as c' => 's.pdt_id = c.pdt_id'),
+            'where'	 	=> array('s.is_deleted' => NULL, 's.pdt_id' => $id)
+        );
+		$result = $this->MY_Model->getData($data);
+		return $result;
+        
+    }
   
+    function update_varient($id,$array)
+    {
+        $array = array(
+            'tableName' => 'product_variants',
+            'update'    =>  $array,
+            'where'    => array(
+                'rowid' => $id
+            )
+        );
+        $this->MY_Model->updateData($array);
+    }
 
 }

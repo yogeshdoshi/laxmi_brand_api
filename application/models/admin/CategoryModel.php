@@ -18,7 +18,7 @@ class CategoryModel extends CI_Model {
             'data' => array(
                 'getType'   => 'result',
                 'tableName' => 'category_master',
-                'select'    => 'category_id,category_name,created_date,is_active',
+                'select'    => '*',
                 'where' 	=> $where,
                 'orderBy' => $order_by
             )
@@ -29,9 +29,42 @@ class CategoryModel extends CI_Model {
         return $data;
         
     }
-    public function alldata2()
+   function save_category($data){
+    $array = array(
+        'tableName' => 'category_master',
+        'insert'    =>  $data
+    );
+
+    return $this->MY_Model->insertData($array);
+   }
+
+   function update_category($id,$array)
+   {
+       $array = array(
+           'tableName' => 'category_master',
+           'update'    =>  $array,
+           'where'    => array(
+               'category_id' => $id
+           )
+       );
+     $this->MY_Model->updateData($array);
+     return 1;
+    }
+
+    function delete_category($id)
     {
-        return $this->db->select('category_id,category_name,created_date,is_active')->from('category_master')->order_by('category_id','desc')->get()->result();
+        $array = array(
+			'tableName' => 'category_master',
+			'update'    =>  array(
+				'is_deleted' => 1,
+				'deleted_at' => CURRENT_DATETIME
+			),
+			'where'    => array(
+				'is_deleted' => NULL,
+				'category_id' => $id
+			)
+		);
+		return $this->MY_Model->updateData($array);
     }
 
    

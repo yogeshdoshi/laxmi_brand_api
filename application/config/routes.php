@@ -51,26 +51,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 
-// $route['auth/login']['post']           = 'auth/login';
-// $route['auth/logout']['post']          = 'auth/logout';
-// $route['category']['get']          	       = 'category';
-// $route['category/detail/(:num)']['get']    = 'category/detail/$1';
-// $route['category/create']['post']   	   = 'category/create';
-// $route['category/update/(:num)']['put']    = 'category/update/$1';
-// $route['category/delete/(:num)']['delete'] = 'category/delete/$1';
 
 $route['category'] = 'CategoryController';
-$route['admin/product'] = 'api/admin/ProductController/get_product';
-$route['admin/product/(:num)'] = 'api/admin/ProductController/get_product/$1';
+$route['admin/product/list'] = 'api/admin/ProductController/get_product';
+$route['admin/product/list/(:num)'] = 'api/admin/ProductController/get_product/$1';
 $route['admin/product/detail'] = 'api/admin/ProductController/product_detail';
 $route['admin/product/delete'] = 'api/admin/ProductController/delete';
 $route['admin/product/save'] = 'api/admin/ProductController/insert_product';
+$route['admin/product/update'] = 'api/admin/ProductController/update_product';
+
+// category
+$route['admin/category/list'] = 'api/admin/CategoryController/get_category';
+$route['admin/category/list/(:num)'] = 'api/admin/CategoryController/get_category/$1';
+$route['admin/category/insert'] = 'api/admin/CategoryController/insert_category';
+$route['admin/category/update'] = 'api/admin/CategoryController/update_category';
+$route['admin/category/delete'] = 'api/admin/CategoryController/delete_category';
 
 
+// faq
+$route['admin/faq/list'] = 'api/admin/FaqController/get_faq';
+$route['admin/faq/list/(:num)'] = 'api/admin/FaqController/get_faq/$1';
+$route['admin/faq/insert'] = 'api/admin/FaqController/insert_faq';
+$route['admin/faq/update'] = 'api/admin/FaqController/update_faq';
+$route['admin/faq/delete'] = 'api/admin/FaqController/delete_faq';
 
+$route['admin/login'] = 'api/admin/LoginController/login';
 
-$route['admin/category'] = 'api/admin/CategoryController/get_category';
-$route['admin/category/(:num)'] = 'api/admin/CategoryController/get_category/$1';
 // ProductController
 
 $route['default_controller'] = 'welcome';
