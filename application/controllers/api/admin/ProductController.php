@@ -17,11 +17,10 @@ class ProductController extends CI_Controller
     public function get_product()
     {
 		$jsonArray = json_decode(file_get_contents('php://input'),true); 
-		
         /* pagination attributes */
         $page_no  = 1;
-        if (is_numeric($this->uri->segment(3))) {
-            $page_no = $this->uri->segment(3);
+        if (is_numeric($this->uri->segment(4))) {
+            $page_no = $this->uri->segment(4);
         }
 
         $method = $_SERVER['REQUEST_METHOD'];
@@ -169,6 +168,16 @@ class ProductController extends CI_Controller
 			$resp["message"] = "Product image is required";
 			return $this->responsedata(400, 'failed', $resp);
 		}
+
+		$image = $jsonArray['image'];
+		$image_name = "";
+		if (strlen($image) > 0) { 
+			
+	        $image_name = round(microtime(true) * 1000). ".jpg"; 
+	        $image_upload_dir = $_SERVER['DOCUMENT_ROOT'].'/laxmibrand/assets/product/image/'.$image_name; 
+	        $flag = file_put_contents($image_upload_dir, base64_decode($image));
+		}
+		
 		$array =array(
 			'pdt_name' => $pdt_name,
 			'category_id' => $category_id,
@@ -177,7 +186,7 @@ class ProductController extends CI_Controller
 			'pdt_storage_uses' => $pdt_storage_uses,
 			'pdt_other_info' => $pdt_other_info,
 			'is_active' => $is_active,
-			'prdt_images' => $prdt_images,
+			'prdt_images' => $image_upload_dir,
 			'created_date' => CURRENT_DATETIME,
 			'updated_at' => NULL,
 			'deleted_at' => NULL,

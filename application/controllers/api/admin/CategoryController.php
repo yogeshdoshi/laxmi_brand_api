@@ -20,8 +20,8 @@ class CategoryController extends CI_Controller
 
 		/* pagination attributes */
 		$page_no  = 1;
-		if (is_numeric($this->uri->segment(3))) {
-			$page_no = $this->uri->segment(3);
+		if (is_numeric($this->uri->segment(4))) {
+			$page_no = $this->uri->segment(4);
 		}
 
 		$method = $_SERVER['REQUEST_METHOD'];

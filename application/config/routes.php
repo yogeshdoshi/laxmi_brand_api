@@ -50,7 +50,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 
-
+$route['default_controller'] = 'welcome';
+$route['404_override'] = '';
+$route['translate_uri_dashes'] = FALSE;
 
 $route['category'] = 'CategoryController';
 $route['admin/product/list'] = 'api/admin/ProductController/get_product';
@@ -74,11 +76,26 @@ $route['admin/faq/list/(:num)'] = 'api/admin/FaqController/get_faq/$1';
 $route['admin/faq/insert'] = 'api/admin/FaqController/insert_faq';
 $route['admin/faq/update'] = 'api/admin/FaqController/update_faq';
 $route['admin/faq/delete'] = 'api/admin/FaqController/delete_faq';
+$route['admin/faq/detail'] = 'api/admin/FaqController/faq_detail';
 
-$route['admin/login'] = 'api/admin/LoginController/login';
+// offer
+$route['admin/offer/list'] = 'api/admin/OfferController/get_offer';
+$route['admin/offer/list/(:num)'] = 'api/admin/OfferController/get_offer/$1';
+$route['admin/offer/insert'] = 'api/admin/OfferController/insert_offer';
+$route['admin/offer/update'] = 'api/admin/OfferController/update_offer';
+$route['admin/offer/delete'] = 'api/admin/OfferController/delete_offer';
+$route['admin/offer/detail'] = 'api/admin/OfferController/offer_detail';
+
+// admin
+$route['admin/login'] = 'api/admin/LoginController/login_post';
+$route['admin/pal'] = 'api/admin/LoginController/pal';
+$route['admin/fileupload'] = 'api/admin/LoginController/_fileupload';
+
+
+$route['admin/upload'] = 'api/admin/LoginController/_uploadimg';
+
+
+$route['admin/upload/images'] = 'api/admin/Uploadimages/index';
+
 
 // ProductController
-
-$route['default_controller'] = 'welcome';
-$route['404_override'] = '';
-$route['translate_uri_dashes'] = FALSE;

@@ -12,7 +12,7 @@ class ProductModel extends CI_Model {
                 'page_no'     => $page_no,
                 'per_page'    => PER_PAGE,
                 'link'        =>'admin/product',
-                'uri_segment' => 3
+                'uri_segment' => 4
             ),
             'data' => array(
                 'getType'   => 'result',

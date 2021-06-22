@@ -4,18 +4,19 @@ header('Access-Control-Allow-Methods: GET, POST');
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
-class FaqController extends CI_Controller
+class OfferController extends CI_Controller
 {
 
     public function __construct()
     {
         parent::__construct();
         $this->load->library('pagination');
-        $this->load->model('admin/FaqModel');
+        $this->load->model('admin/OfferModel');
     }
 
-    public function get_faq()
+    public function get_offer()
     {
+     
 		$jsonArray = json_decode(file_get_contents('php://input'),true); 
 	
         /* pagination attributes */
@@ -30,23 +31,20 @@ class FaqController extends CI_Controller
         } else {
             $response['status'] = "200";
 
-            $where = "is_deleted IS NULL and deleted_at IS NULL and is_active=1";
+            $where = "is_deleted IS NULL and deleted_at IS NULL";
            
-            $order_by = "";
-
-            $order_by = " id DESC";
-            $resp = $this->FaqModel->alldata($page_no, $where, $order_by);
-
+            $order_by = " offerid DESC";
+            $resp = $this->OfferModel->alldata($page_no, $where, $order_by);
 
             $this->responsedata(200, 'success', $resp);
         }
     }
 
-    function faq_detail()
+    function offer_detail()
     {
 		$jsonArray = json_decode(file_get_contents('php://input'),true); 
         if ($jsonArray['id']) {
-            $resp = $this->FaqModel->fetch_single_faq($jsonArray['id']);
+            $resp = $this->OfferModel->fetch_single_offer($jsonArray['id']);
             if (count($resp) > 0) {
                 $this->responsedata(200, 'success', $resp);
             } else {
@@ -60,12 +58,12 @@ class FaqController extends CI_Controller
 		}
     }
 
-    function delete_faq()
+    function delete_offer()
 	{
 		$jsonArray = json_decode(file_get_contents('php://input'),true); 
         if ($jsonArray['id']) 
 		{
-            $resp=$this->FaqModel->delete_faq($jsonArray['id']);
+            $resp=$this->OfferModel->delete_offer($jsonArray['id']);
 			if($resp>0)
 			{
 				$result["message"] = "Successfully deleted data";
@@ -83,46 +81,55 @@ class FaqController extends CI_Controller
         }
 	}
 	
-    public function insert_faq()
+    public function insert_offer()
     {
-		
-		$jsonArray = json_decode(file_get_contents('php://input'),true);
-        print_r($this->input->post()); die;
-		if(isset($jsonArray['faq_title']) && !empty($jsonArray['faq_title'])){
-			$faq_title= trim($jsonArray['faq_title']);
+	
+		$jsonArray = json_decode(file_get_contents('php://input'),true); 
+		if(isset($jsonArray['offer_description']) && !empty($jsonArray['offer_description'])){
+			$offer_description= trim($jsonArray['offer_description']);
 		}
 		else{
 		
-			$resp["message"] = "Faq title is required";
+			$resp["message"] = "offer description is required";
 			return $this->responsedata(400, 'failed', $resp);
 		}
 		
-		if(isset($jsonArray['faq_answer']) && !empty($jsonArray['faq_answer'])){
-			$faq_answer=  trim($jsonArray['faq_answer']);
+		if(isset($jsonArray['offer_product_id']) && !empty($jsonArray['offer_product_id'])){
+			$offer_product_id=  trim($jsonArray['offer_product_id']);
 		}
 		else{
-			$resp["message"] = "Faq answer id is required";
+			$resp["message"] = "offer product id is required";
 			return $this->responsedata(400, 'failed', $resp);
 		}
 		
-		if(isset($jsonArray['is_active']) && !empty($jsonArray['is_active'])){
-			$is_active=  trim($jsonArray['is_active']);
+        if(isset($jsonArray['discount_amount']) && !empty($jsonArray['discount_amount'])){
+			$discount_amount=  trim($jsonArray['discount_amount']);
 		}
 		else{
-			$is_active=  0;
+			$resp["message"] = "offer discount is required";
+			return $this->responsedata(400, 'failed', $resp);
+		}
+
+        if(isset($jsonArray['offer_status']) && !empty($jsonArray['offer_status'])){
+			$offer_status=  trim($jsonArray['offer_status']);
+		}
+		else{
+			$resp["message"] = "offer status is required";
+			return $this->responsedata(400, 'failed', $resp);
 		}
 		
-      
 		$array =array(
-			'faq_title' => $faq_title,
-			'faq_answer' => $faq_answer,
+            "offer_description"=>$offer_description,
+            "offer_product_id"=>$offer_product_id,
+            "discount_amount"=>$discount_amount,
+            "offer_status"=>$offer_status,
 			'created_at' => CURRENT_DATETIME,
 			'updated_at' => NULL,
 			'deleted_at' => NULL,
 			'is_deleted' =>  NULL
 		);
 
-		$resp=$this->FaqModel->save_faq($array);
+		$resp=$this->OfferModel->save_offer($array);
 
 		if($resp>0)
 		{
@@ -137,32 +144,32 @@ class FaqController extends CI_Controller
 
 }
 
-public function update_faq()
+public function update_offer()
 {
 	
     $jsonArray = json_decode(file_get_contents('php://input'),true); 
     if(isset($jsonArray['id']) && !empty($jsonArray['id'])){
-        $faq_id= trim($jsonArray['id']);
+        $offer_id= trim($jsonArray['id']);
     }
     else{
     
-        $resp["message"] = "Faq id is required";
+        $resp["message"] = "offer id is required";
         return $this->responsedata(400, 'failed', $resp);
     }
-    if(isset($jsonArray['faq_title']) && !empty($jsonArray['faq_title'])){
-        $faq_title= trim($jsonArray['faq_title']);
+    if(isset($jsonArray['offer_title']) && !empty($jsonArray['offer_title'])){
+        $offer_title= trim($jsonArray['offer_title']);
     }
     else{
     
-        $resp["message"] = "Faq title is required";
+        $resp["message"] = "offer title is required";
         return $this->responsedata(400, 'failed', $resp);
     }
     
-    if(isset($jsonArray['faq_answer']) && !empty($jsonArray['faq_answer'])){
-        $faq_answer=  trim($jsonArray['faq_answer']);
+    if(isset($jsonArray['offer_answer']) && !empty($jsonArray['offer_answer'])){
+        $offer_answer=  trim($jsonArray['offer_answer']);
     }
     else{
-        $resp["message"] = "Faq answer id is required";
+        $resp["message"] = "offer answer id is required";
         return $this->responsedata(400, 'failed', $resp);
     }
     
@@ -174,12 +181,12 @@ public function update_faq()
     }
 
 	$array =array(
-		'faq_title' => $faq_title,
-			'faq_answer' => $faq_answer,
+		'offer_title' => $offer_title,
+			'offer_answer' => $offer_answer,
 			'updated_at' => CURRENT_DATETIME
 	);
 
-	$resp=$this->FaqModel->update_faq($faq_id,$array);
+	$resp=$this->OfferModel->update_offer($offer_id,$array);
 
 	if($resp)
 	{

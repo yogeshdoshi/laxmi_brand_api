@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-class FaqModel extends CI_Model {
+class OfferModel extends CI_Model {
 
     public function alldata($page_no,$where,$order_by)
     {
@@ -11,12 +11,12 @@ class FaqModel extends CI_Model {
             'pagination' => array(
                 'page_no'     => $page_no,
                 'per_page'    => PER_PAGE,
-                'link'        =>'admin/faq',
+                'link'        =>'admin/offer',
                 'uri_segment' => 4
             ),
             'data' => array(
                 'getType'   => 'result',
-                'tableName' => 'faq_master',
+                'tableName' => 'offer_master',
                 'select'    => '*',
                 'where' 	=> $where,
                 'orderBy' => $order_by
@@ -29,37 +29,37 @@ class FaqModel extends CI_Model {
         
     }
 
-    function fetch_single_faq($id)
+    function fetch_single_offer($offerid)
 	{
         $data= array(
             'getType'   => 'rowArray',
-            'tableName' => 'faq_master',
+            'tableName' => 'offer_master',
             'select'    => '*',
-            'where'	 	=> array('is_deleted' => NULL, 'id' => $id)
+            'where'	 	=> array('is_deleted' => NULL, 'offerid' => $offerid)
         );
 		$result = $this->MY_Model->getData($data);
 		return $result;
 	}
 
-    function delete_faq($id)
+    function delete_offer($offerid)
     {
         $array = array(
-			'tableName' => 'faq_master',
+			'tableName' => 'offer_master',
 			'update'    =>  array(
 				'is_deleted' => 1,
 				'deleted_at' => CURRENT_DATETIME
 			),
 			'where'    => array(
-				'id' => $id
+				'offerid' => $offerid
 			)
 		);
 		return $this->MY_Model->updateData($array);
     }
 
-    function save_faq($data)
+    function save_offer($data)
     {
         $array = array(
-            'tableName' => 'faq_master',
+            'tableName' => 'offer_master',
             'insert'    =>  $data
         );
 
@@ -69,13 +69,13 @@ class FaqModel extends CI_Model {
 
     
   
-    function update_faq($id,$array)
+    function update_offer($offerid,$array)
     {
         $array = array(
-            'tableName' => 'faq_master',
+            'tableName' => 'offer_master',
             'update'    =>  $array,
             'where'    => array(
-                'id' => $id
+                'offerid' => $offerid
             )
         );
         return $this->MY_Model->updateData($array);
