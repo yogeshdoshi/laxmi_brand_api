@@ -11,7 +11,7 @@ class ProductModel extends CI_Model {
             'pagination' => array(
                 'page_no'     => $page_no,
                 'per_page'    => PER_PAGE,
-                'link'        =>'admin/product',
+                'link'        =>'admin/product/list',
                 'uri_segment' => 4
             ),
             'data' => array(

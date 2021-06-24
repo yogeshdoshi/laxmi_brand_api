@@ -12,7 +12,7 @@ class CategoryModel extends CI_Model {
             'pagination' => array(
                 'page_no'     => $page_no,
                 'per_page'    => PER_PAGE,
-                'link'        =>'admin/category',
+                'link'        =>'admin/category/list',
                 'uri_segment' => 4
             ),
             'data' => array(

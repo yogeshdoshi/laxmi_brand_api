@@ -11,7 +11,7 @@ class FaqModel extends CI_Model {
             'pagination' => array(
                 'page_no'     => $page_no,
                 'per_page'    => PER_PAGE,
-                'link'        =>'admin/faq',
+                'link'        =>'admin/faq/list',
                 'uri_segment' => 4
             ),
             'data' => array(

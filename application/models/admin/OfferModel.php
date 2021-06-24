@@ -11,7 +11,7 @@ class OfferModel extends CI_Model {
             'pagination' => array(
                 'page_no'     => $page_no,
                 'per_page'    => PER_PAGE,
-                'link'        =>'admin/offer',
+                'link'        =>'admin/offer/list',
                 'uri_segment' => 4
             ),
             'data' => array(
