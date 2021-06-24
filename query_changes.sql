@@ -50,3 +50,11 @@ CREATE TABLE `image_master` (
 
 ALTER TABLE `image_master` ADD `reference_id` INT NULL AFTER `image_for`;
 
+ALTER TABLE `image_master` ADD `image_name` VARCHAR(250) NULL DEFAULT NULL AFTER `image_path`;
+ALTER TABLE `order_master` ADD `updated_at` DATETIME NULL AFTER `order_created_date`;
+
+ALTER TABLE `product_master` ADD `quantinty` INT NULL AFTER `populairty`;
+
+ALTER TABLE `admin_users` CHANGE `password` `password` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL;
+ALTER TABLE `admin_users` ADD PRIMARY KEY(`userid`);
+ALTER TABLE `admin_users` CHANGE `userid` `userid` INT NOT NULL AUTO_INCREMENT;
