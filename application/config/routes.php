@@ -86,16 +86,19 @@ $route['admin/offer/update'] = 'api/admin/OfferController/update_offer';
 $route['admin/offer/delete'] = 'api/admin/OfferController/delete_offer';
 $route['admin/offer/detail'] = 'api/admin/OfferController/offer_detail';
 
+// order
+$route['admin/order/list'] = 'api/admin/OrderController/get_order';
+$route['admin/order/list/(:num)'] = 'api/admin/OrderController/get_order/$1';
+$route['admin/order/update'] = 'api/admin/OrderController/update_order';
+
+
 // admin
-$route['admin/login'] = 'api/admin/LoginController/login_post';
+$route['admin/login'] = 'api/admin/LoginController/login';
 $route['admin/pal'] = 'api/admin/LoginController/pal';
 $route['admin/fileupload'] = 'api/admin/LoginController/_fileupload';
 
-
 $route['admin/upload'] = 'api/admin/LoginController/_uploadimg';
 
-
 $route['admin/upload/images'] = 'api/admin/Uploadimages/index';
+$route['admin/product/store'] = 'api/admin/Uploadimages/saveproduct';
 
-
-// ProductController

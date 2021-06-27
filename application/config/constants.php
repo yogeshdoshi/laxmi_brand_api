@@ -89,7 +89,7 @@ if(!defined('ADMIN_PATH')) {
 	define('ADMIN_PATH', 'api/admin/');    
 }
 if(!defined('ASSETS_PATH')) {
-	define('ASSETS_PATH', 'assets/product/image');    
+	define('ASSETS_PATH', 'assets/');    
 }
 if(!defined('PER_PAGE')) {
 	define('PER_PAGE', 20);    

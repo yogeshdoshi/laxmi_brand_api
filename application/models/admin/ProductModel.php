@@ -17,7 +17,7 @@ class ProductModel extends CI_Model {
             'data' => array(
                 'getType'   => 'result',
                 'tableName' => 'product_master as s',
-                'select'    => 's.*,c.is_active as varient_isactive,c.*',
+                'select'    => 's.*,s.pdt_id as product_id,c.is_active as varient_isactive,c.rowid ,c.var_id ,c.is_active as varient_status ,c.pdt_price_actual_500gm ,c.pdt_price_discounted_500gm	 ,c.pdt_price_enable_500gm ,c.pdt_price_actual_1kg ,c.pdt_price_discounted_1kg ,c.pdt_price_enable_1kg ,c.pdt_price_actual_2kg ,c.pdt_price_discounted_2kg ,c.pdt_price_enable_2kg ,c.pdt_price_actual_3kg ,c.pdt_price_discounted_3kg ,c.pdt_price_enable_3kg ,c.pdt_price_actual_5kg ,c.pdt_price_discounted_5kg ,c.pdt_price_enable_5kg',
                 'joinType' => "Left",
 				'join' => array('product_variants as c' => 's.pdt_id = c.pdt_id'),
                 'where' 	=> $where,
@@ -36,10 +36,10 @@ class ProductModel extends CI_Model {
         $data= array(
             'getType'   => 'rowArray',
             'tableName' => 'product_master as s',
-            'select'    => 's.*,c.is_active as varient_isactive,c.*',
+            'select'    => 's.*,s.pdt_id as product_id,c.is_active as varient_isactive,c.rowid ,c.var_id ,c.is_active as varient_status ,c.pdt_price_actual_500gm ,c.pdt_price_discounted_500gm	 ,c.pdt_price_enable_500gm ,c.pdt_price_actual_1kg ,c.pdt_price_discounted_1kg ,c.pdt_price_enable_1kg ,c.pdt_price_actual_2kg ,c.pdt_price_discounted_2kg ,c.pdt_price_enable_2kg ,c.pdt_price_actual_3kg ,c.pdt_price_discounted_3kg ,c.pdt_price_enable_3kg ,c.pdt_price_actual_5kg ,c.pdt_price_discounted_5kg ,c.pdt_price_enable_5kg',
             'joinType' => "Left",
             'join' => array('product_variants as c' => 's.pdt_id = c.pdt_id'),
-            'where'	 	=> array('s.is_deleted' => NULL, 's.pdt_id' => $id)
+            'where'=> array('s.is_deleted' => NULL, 's.pdt_id' => $id)
         );
 		$result = $this->MY_Model->getData($data);
 		return $result;
