@@ -102,3 +102,13 @@ $route['admin/upload'] = 'api/admin/LoginController/_uploadimg';
 $route['admin/upload/images'] = 'api/admin/Uploadimages/index';
 $route['admin/product/store'] = 'api/admin/Uploadimages/saveproduct';
 
+// user
+
+$route['user/product/list'] = 'api/user/ProductController/get_product';
+$route['user/product/list/(:num)'] = 'api/user/ProductController/get_product/$1';
+
+$route['user/category/list'] = 'api/user/CategoryController/get_category';
+$route['user/category/list/(:num)'] = 'api/user/CategoryController/get_category/$1';
+
+$route['user/save_device'] = 'api/user/UserController/save_device';
+$route['user/save_order'] = 'api/user/UserController/save_order';
