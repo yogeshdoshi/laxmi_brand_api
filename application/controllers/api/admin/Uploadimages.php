@@ -71,13 +71,18 @@ class Uploadimages extends CI_Controller
 	public function saveproduct(){
 		$jsonArray = $_POST;//json_decode(file_get_contents('php://input'),true); 
 		if(isset($jsonArray['pdt_name']) && !empty($jsonArray['pdt_name'])){
-			$pdt_name= trim($jsonArray['pdt_name']);
+			$pdt= trim($jsonArray['pdt_name']);
+			$pdt_name = str_replace(' ', '_', $pdt);
+			$pname= trim($jsonArray['pdt_name']);
 		}
 		else{
 			$resp["message"] = "Product name is required";
 			return $this->responsedata(400, 'failed', $resp);
 		}
-		$imgpath = "product/image";
+		if (!file_exists(ASSETS_PATH .'product/'.$pdt_name)) {
+			mkdir(ASSETS_PATH .'product/'.$pdt_name, 0777, true);
+		}
+		$imgpath = "product/".$pdt_name;
 		// $imgname = "PR_" . $uniqueId;
 		$config['upload_path'] = ASSETS_PATH . $imgpath;
 		$config['allowed_types'] = 'jpg|jpeg|png|gif';
@@ -89,8 +94,9 @@ class Uploadimages extends CI_Controller
         $images = array();
 		
 		$files=$_FILES['image'];
+		
         foreach ($files['name'] as $key => $image) {
-			$_FILES['images[]']['name']= $files['name'][$key];
+	    $_FILES['images[]']['name']= $files['name'][$key];
             $_FILES['images[]']['type']= $files['type'][$key];
             $_FILES['images[]']['tmp_name']= $files['tmp_name'][$key];
             $_FILES['images[]']['error']= $files['error'][$key];
@@ -108,10 +114,18 @@ class Uploadimages extends CI_Controller
             if ($this->upload->do_upload('images[]')) {
                 $this->upload->data();
             } else {
+				$result["message"] = "Something went wrong";
+				$this->responsedata(400, 'failed', $result);
                 return false;
             }
         }
-		$productimages = implode(', ', $images);
+		$img_path=array();
+		foreach($images as $k=>$im){
+			$img[]=base_url().ASSETS_PATH .'product/'.$pdt_name."/".$im.".jpg";
+			$img_path=$img;
+		}
+		
+		$productimages = implode(', ', $img_path);
       
 		if(isset($jsonArray['category_id']) && !empty($jsonArray['category_id'])){
 			$category_id=  trim($jsonArray['category_id']);
@@ -169,7 +183,7 @@ class Uploadimages extends CI_Controller
 
 		
 		$array =array(
-			'pdt_name' => $pdt_name,
+			'pdt_name' => $pname,
 			'category_id' => $category_id,
 			'pdt_discount_display' => $pdt_discount_display,
 			'pdt_about' => $pdt_about,
