@@ -135,6 +135,7 @@ public function update_category()
 
 public function delete_category()
 {
+	$resp=array();
 	$jsonArray = json_decode(file_get_contents('php://input'),true); 
 	if ($jsonArray['id']) 
 	{

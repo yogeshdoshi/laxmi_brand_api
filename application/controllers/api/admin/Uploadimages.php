@@ -15,6 +15,8 @@ class Uploadimages extends CI_Controller
 
 	public function  index()
 	{
+		$result=array();
+		$res=array();
 		$image_for = $_POST['image_for'];
 		$reference_id = $_POST['reference_id'];
 		$uniqueId = time() . '-' . mt_rand();
@@ -33,7 +35,7 @@ class Uploadimages extends CI_Controller
 		$data = array();
 
 		if ($_FILES != NULL) {
-			if (!empty($_FILES['file']['name'])) {
+			if (!empty($_FILES['file']['name']) && $_FILES['file']['name']!="") {
 
 				$config['upload_path'] = ASSETS_PATH . $imgpath;
 				$config['allowed_types'] = 'jpg|jpeg|png|gif';

@@ -47,7 +47,7 @@ class FaqController extends CI_Controller
 		$jsonArray = json_decode(file_get_contents('php://input'),true); 
         if ($jsonArray['id']) {
             $resp = $this->FaqModel->fetch_single_faq($jsonArray['id']);
-            if (count($resp) > 0) {
+            if (isset($resp) && $resp!="") {
                 $this->responsedata(200, 'success', $resp);
             } else {
                 $resp["message"] = "No record found";

@@ -75,6 +75,7 @@ class ProductController extends CI_Controller
 
     function delete()
 	{
+		$resp=array();
 		$jsonArray = json_decode(file_get_contents('php://input'),true); 
         if ($jsonArray['id']) 
 		{
@@ -88,7 +89,6 @@ class ProductController extends CI_Controller
 			{
                 $resp["message"] = "No record found";
                 $this->responsedata(400, 'failed', $resp);
-				
 			}
 		}
         else{
