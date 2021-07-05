@@ -22,8 +22,7 @@ class FaqModel extends CI_Model {
                 'orderBy' => $order_by
             )
         );
-        $resp = $this->make_pagination->paginate($array);
-        $data['result']  = $resp['result'];
+        $data = $this->make_pagination->paginate($array);
       
         return $data;
         

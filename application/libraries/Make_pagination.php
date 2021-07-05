@@ -92,7 +92,7 @@ class Make_pagination {
 
             /* result */
             $start = ($array['pagination']['page_no'] - 1) * $array['pagination']['per_page'];
-            $limit = ($array['pagination']['per_page']);
+            $limit = $array['pagination']['per_page'];
 
             $page_no = $start;
 
@@ -102,8 +102,8 @@ class Make_pagination {
             $result = $this->CI->MY_Model->getData($result_array);
 
         }
-        $data['page_no']  = $page_no;
-        $data["links"] = $links;
+        $data['total_record'] =$total_records;
+        $data['total_pages']=ceil($total_records/$array['pagination']['per_page']);
         $data["result"] = $result;
 
         return $data;

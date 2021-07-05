@@ -24,9 +24,8 @@ class CategoryModel extends CI_Model {
             )
         );
         $resp = $this->make_pagination->paginate($array);
-        $data['result']  = $resp['result'];
       
-        return $data;
+        return $resp;
         
     }
    function save_category($data){
