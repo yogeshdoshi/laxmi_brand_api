@@ -11,6 +11,23 @@ class UploadModel extends CI_Model{
 
         return $this->MY_Model->insertData($array);
     }
+
+    function save_slider($data){
+        $array = array(
+            'tableName' => 'image_slider_master',
+            'insert'    =>  $data
+        );
+
+        return $this->MY_Model->insertData($array);
+    }
  
+    function save_advertisement($data){
+        $array = array(
+            'tableName' => 'image_advertisement_master',
+            'insert'    =>  $data
+        );
+
+        return $this->MY_Model->insertData($array);
+    }
      
 }

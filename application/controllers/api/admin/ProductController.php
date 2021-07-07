@@ -57,13 +57,14 @@ class ProductController extends CI_Controller
 
     function product_detail()
     {
+		$resp=array();
 		$jsonArray = json_decode(file_get_contents('php://input'),true); 
         if ($jsonArray['id']) {
             $resp = $this->ProductModel->fetch_single_product($jsonArray['id']);
             if (count($resp) > 0) {
                 $this->responsedata(200, 'success', $resp);
             } else {
-                $resp["message"] = "No record found";
+                $resp["message"] = "Id is invalid";
                 $this->responsedata(400, 'failed', $resp);
             }
         }

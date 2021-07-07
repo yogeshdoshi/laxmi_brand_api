@@ -101,9 +101,10 @@ $route['admin/upload'] = 'api/admin/LoginController/_uploadimg';
 
 $route['admin/upload/images'] = 'api/admin/Uploadimages/index';
 $route['admin/product/store'] = 'api/admin/Uploadimages/saveproduct';
+$route['admin/upload/slider'] = 'api/admin/Uploadimages/saveslider';
+$route['admin/upload/advertisement'] = 'api/admin/Uploadimages/saveadvertisement';
 
 // user
-
 $route['user/product/list'] = 'api/user/ProductController/get_product';
 $route['user/product/list/(:num)'] = 'api/user/ProductController/get_product/$1';
 

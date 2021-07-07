@@ -83,3 +83,15 @@ CREATE TABLE `user_device` (
 ) 
 
 ALTER TABLE `order_master` ADD `amount` FLOAT NULL AFTER `order_status`;
+
+CREATE TABLE `image_advertisement_master` ( `id` int(11) NOT NULL AUTO_INCREMENT, `image_path` text DEFAULT NULL, `created_at` datetime DEFAULT NULL, `updated_at` datetime DEFAULT NULL, `deleted_at` datetime DEFAULT NULL, `is_deleted` tinyint(1) DEFAULT NULL, PRIMARY KEY (`id`) );
+
+CREATE TABLE `image_slider_master` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `image_path` text DEFAULT NULL,
+ `created_at` datetime DEFAULT NULL,
+ `updated_at` datetime DEFAULT NULL,
+ `deleted_at` datetime DEFAULT NULL,
+ `is_deleted` tinyint(1) DEFAULT NULL,
+ PRIMARY KEY (`id`)
+);

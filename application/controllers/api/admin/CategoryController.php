@@ -3,7 +3,6 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST');
 defined('BASEPATH') or exit('No direct script access allowed');
 
-
 class CategoryController extends CI_Controller
 {
 
@@ -45,13 +44,12 @@ class CategoryController extends CI_Controller
 
 	public function insert_category()
     {
+		$jsonArray = $_POST;//json_decode(file_get_contents('php://input'),true); 
 		
-		$jsonArray = json_decode(file_get_contents('php://input'),true); 
 		if(isset($jsonArray['category_name']) && !empty($jsonArray['category_name'])){
 			$category_name= trim($jsonArray['category_name']);
 		}
 		else{
-		
 			$resp["message"] = "Category name is required";
 			return $this->responsedata(400, 'failed', $resp);
 		}
@@ -62,10 +60,60 @@ class CategoryController extends CI_Controller
 		else{
 			$is_active=  0;
 		}
+
+		if (!file_exists(ASSETS_PATH .'category/'.$category_name)) {
+			mkdir(ASSETS_PATH .'category/'.$category_name, 0777, true);
+		}
+		$imgpath = "category/".$category_name;
+		// $imgname = "PR_" . $uniqueId;
+		$config['upload_path'] = ASSETS_PATH . $imgpath;
+		$config['allowed_types'] = 'jpg|jpeg|png|gif';
+		$config['max_size'] = '5000'; // max_size in kb that means 5mb
+		// $config['file_name'] = $imgname;
 		
+        $this->load->library('upload', $config);
+		
+        $images = array();
+		
+		$files=$_FILES['image'];
+		
+        foreach ($files['name'] as $key => $image) {
+	    $_FILES['images[]']['name']= $files['name'][$key];
+            $_FILES['images[]']['type']= $files['type'][$key];
+            $_FILES['images[]']['tmp_name']= $files['tmp_name'][$key];
+            $_FILES['images[]']['error']= $files['error'][$key];
+            $_FILES['images[]']['size']= $files['size'][$key];
+			
+			$uniqueId = time() . '-' . mt_rand();
+            $fileName = "PR_" .$category_name."_". time();
+
+            $images[] = $fileName;
+
+            $config['file_name'] = $fileName;
+
+            $this->upload->initialize($config);
+
+            if ($this->upload->do_upload('images[]')) {
+               $this->upload->data();
+            } else {
+				$result["message"] = $files['error'][$key];
+				$this->responsedata(400, 'failed', $result);
+            }
+        }
+		$img_path=array();
+		foreach($images as $k=>$im){
+			$img[]=base_url().ASSETS_PATH .'category/'.$category_name."/".$im.".jpg";
+			$img_path=$img;
+		}
+		
+		$categoryimages = implode(', ', $img_path);
+      
+
+
 		$array =array(
 			'category_name' => $category_name,
 			'is_active' => $is_active,
+			'image' => $categoryimages,
 			'created_date' => CURRENT_DATETIME
 		);
 
@@ -82,7 +130,7 @@ class CategoryController extends CI_Controller
 			$this->responsedata(400, 'failed', $result);
 		}
 
-}
+	}
 
 public function update_category()
 {

@@ -87,7 +87,7 @@ class FaqController extends CI_Controller
     {
 		
 		$jsonArray = json_decode(file_get_contents('php://input'),true);
-        print_r($this->input->post()); die;
+      
 		if(isset($jsonArray['faq_title']) && !empty($jsonArray['faq_title'])){
 			$faq_title= trim($jsonArray['faq_title']);
 		}
