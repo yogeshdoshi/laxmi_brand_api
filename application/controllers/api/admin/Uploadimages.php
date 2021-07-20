@@ -238,7 +238,7 @@ class Uploadimages extends CI_Controller
 		if (isset($_FILES['image']) && !empty($_FILES['image'])) {
 			$file_type = $_FILES['image']['type']; //returns the mimetype
 
-			$allowed = array("image/jpeg", "image/jpg", "application/png");
+			$allowed = array("image/jpeg", "image/jpg","image/png", "application/png");
 			foreach ($file_type as $fl) {
 				if (!in_array($fl, $allowed)) {
 					$resp["message"] = "Only jpeg,jpg,png is allowed image type";
@@ -323,7 +323,7 @@ class Uploadimages extends CI_Controller
 		if (isset($_FILES['image']) && !empty($_FILES['image'])) {
 			$file_type = $_FILES['image']['type']; //returns the mimetype
 
-			$allowed = array("image/jpeg", "image/jpg", "application/png");
+			$allowed = array("image/jpeg", "image/jpg","image/png", "application/png");
 			foreach ($file_type as $fl) {
 				if (!in_array($fl, $allowed)) {
 					$resp["message"] = "Only jpeg,jpg,png is allowed image type";
