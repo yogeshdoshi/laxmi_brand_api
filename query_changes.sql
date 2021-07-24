@@ -95,3 +95,9 @@ CREATE TABLE `image_slider_master` (
  `is_deleted` tinyint(1) DEFAULT NULL,
  PRIMARY KEY (`id`)
 );
+ALTER TABLE `product_variants` DROP `pdt_price_actual_30gm`, DROP `pdt_price_discounted_30gm`, DROP `pdt_price_enable_30gm`, DROP `pdt_price_actual_60gm`, DROP `pdt_price_discounted_60gm`, DROP `pdt_price_enable_60gm`, DROP `pdt_price_actual_100gm`, DROP `pdt_price_discounted_100gm`, DROP `pdt_price_enable_100gm`, DROP `pdt_price_actual_250gm`, DROP `pdt_price_discounted_250gm`, DROP `pdt_price_enable_250gm`, DROP `pdt_price_actual_500gm`, DROP `pdt_price_discounted_500gm`, DROP `pdt_price_enable_500gm`, DROP `pdt_price_actual_1kg`, DROP `pdt_price_discounted_1kg`, DROP `pdt_price_enable_1kg`, DROP `pdt_price_actual_2kg`, DROP `pdt_price_discounted_2kg`, DROP `pdt_price_enable_2kg`, DROP `pdt_price_actual_3kg`, DROP `pdt_price_discounted_3kg`, DROP `pdt_price_enable_3kg`, DROP `pdt_price_actual_5kg`, DROP `pdt_price_discounted_5kg`, DROP `pdt_price_enable_5kg`;
+
+
+ALTER TABLE `product_variants` ADD `var_type` VARCHAR(50) NULL DEFAULT NULL AFTER `is_active`, ADD `var_discount_price` INT NULL DEFAULT NULL AFTER `var_type`, ADD `var_actual_price` INT NULL DEFAULT NULL AFTER `var_discount_price`, ADD `created_at` DATETIME NULL DEFAULT NULL AFTER `var_actual_price`, ADD `updated_at` DATETIME NULL DEFAULT NULL AFTER `created_at`;
+
+ALTER TABLE `product_variants` DROP INDEX `pdt_id`;

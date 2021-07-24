@@ -73,6 +73,7 @@ class ProductModel extends CI_Model {
     function save_varient($data)
     {
         $array = array(
+            'type' =>'batch',
             'tableName' => 'product_variants',
             'insert'    =>  $data
         );

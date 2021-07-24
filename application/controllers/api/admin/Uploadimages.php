@@ -182,53 +182,80 @@ class Uploadimages extends CI_Controller
 			$resp["message"] = "Product image is required";
 			return $this->responsedata(400, 'failed', $resp);
 		}
-
-
-		$array = array(
-			'pdt_name' => $pname,
-			'category_id' => $category_id,
-			'pdt_discount_display' => $pdt_discount_display,
-			'pdt_about' => $pdt_about,
-			'pdt_storage_uses' => $pdt_storage_uses,
-			'pdt_other_info' => $pdt_other_info,
-			'is_active' => $is_active,
-			'prdt_images' => $prdt_images,
-			'created_date' => CURRENT_DATETIME,
-			'updated_at' => NULL,
-			'deleted_at' => NULL,
-			'is_deleted' =>  NULL
-		);
-
-		$resp = $this->ProductModel->save_product($array);
-
-		$array2 = array(
-			"pdt_id" => $resp,
-			"var_id" => $jsonArray['var_id'],
-			"pdt_price_actual_500gm" => $jsonArray['pdt_price_actual_500gm'],
-			"pdt_price_discounted_500gm" => $jsonArray['pdt_price_discounted_500gm'],
-			"pdt_price_enable_500gm" => $jsonArray['pdt_price_enable_500gm'],
-			"pdt_price_actual_1kg" => isset($jsonArray['pdt_price_actual_1kg']) ? $jsonArray['pdt_price_actual_1kg'] : 0,
-			"pdt_price_discounted_1kg" => isset($jsonArray['pdt_price_discounted_1kg']) ? $jsonArray['pdt_price_discounted_1kg'] : 0,
-			"pdt_price_enable_1kg" => isset($jsonArray['pdt_price_enable_1kg']) ? $jsonArray['pdt_price_enable_1kg'] : 0,
-			"pdt_price_actual_2kg" => isset($jsonArray['pdt_price_actual_2kg']) ? $jsonArray['pdt_price_actual_2kg'] : 0,
-			"pdt_price_discounted_2kg" => isset($jsonArray['pdt_price_discounted_2kg']) ? $jsonArray['pdt_price_discounted_2kg'] : 0,
-			"pdt_price_enable_2kg" => isset($jsonArray['pdt_price_enable_2kg']) ? $jsonArray['pdt_price_enable_2kg'] : 0,
-			"pdt_price_actual_3kg" => isset($jsonArray['pdt_price_actual_3kg']) ? $jsonArray['pdt_price_actual_3kg'] : 0,
-			"pdt_price_discounted_3kg" => isset($jsonArray['pdt_price_discounted_3kg']) ? $jsonArray['pdt_price_discounted_3kg'] : 0,
-			"pdt_price_enable_3kg" => isset($jsonArray['pdt_price_enable_3kg']) ? $jsonArray['pdt_price_enable_3kg'] : 0,
-			"pdt_price_actual_5kg" => isset($jsonArray['pdt_price_actual_5kg']) ? $jsonArray['pdt_price_actual_5kg'] : 0,
-			"pdt_price_discounted_5kg" => isset($jsonArray['pdt_price_discounted_5kg']) ? $jsonArray['pdt_price_discounted_5kg'] : 0,
-			"pdt_price_enable_5kg" => isset($jsonArray['pdt_price_enable_5kg']) ? $jsonArray['pdt_price_enable_5kg'] : 0
-		);
-
-		$resp2 = $this->ProductModel->save_varient($array2);
-
-		if ($resp > 0) {
-			$result["message"] = "successfully inserted data";
-			$this->responsedata(200, 'success', $result);
+		// varient validations
+		$var_type_count = 0;
+		if (isset($jsonArray['var_type']) && !empty($jsonArray['var_type']) && is_array($jsonArray['var_type'])) {
+			$var_type_count =  count($jsonArray['var_type']);
 		} else {
-			$result["message"] = "Something went wrong";
-			$this->responsedata(400, 'failed', $result);
+			$resp["message"] = "Varient type is required";
+			return $this->responsedata(400, 'failed', $resp);
+		}
+
+		$var_is_active_count = 0;
+		if (isset($jsonArray['var_is_active']) && !empty($jsonArray['var_is_active']) && is_array($jsonArray['var_is_active'])) {
+			$var_is_active_count =  count($jsonArray['var_is_active']);
+		} else {
+			$resp["message"] = "Varient status is required";
+			return $this->responsedata(400, 'failed', $resp);
+		}
+
+		$var_discount_price_count = 0;
+		if (isset($jsonArray['var_discount_price']) && !empty($jsonArray['var_discount_price']) && is_array($jsonArray['var_discount_price'])) {
+			$var_discount_price_count =  count($jsonArray['var_discount_price']);
+		} else {
+			$resp["message"] = "Varient discount price is required";
+			return $this->responsedata(400, 'failed', $resp);
+		}
+
+		if (($var_discount_price_count == $var_is_active_count) && ($var_is_active_count == $var_type_count)) {
+
+
+
+			$this->db->trans_start();
+
+			$array = array(
+				'pdt_name' => $pname,
+				'category_id' => $category_id,
+				'pdt_discount_display' => $pdt_discount_display,
+				'pdt_about' => $pdt_about,
+				'pdt_storage_uses' => $pdt_storage_uses,
+				'pdt_other_info' => $pdt_other_info,
+				'is_active' => $is_active,
+				'prdt_images' => $prdt_images,
+				'created_date' => CURRENT_DATETIME,
+				'updated_at' => NULL,
+				'deleted_at' => NULL,
+				'is_deleted' =>  NULL
+			);
+
+			$resp = $this->ProductModel->save_product($array);
+
+			$varient_array = array();
+
+			foreach ($jsonArray['var_type'] as $k => $v) {
+				$varient_array[] = array(
+					"pdt_id" => $resp,
+					"var_id" =>  $k,
+					"is_active" =>  isset($jsonArray['var_is_active'][$k]) ? $jsonArray['var_is_active'][$k] : 1,
+					"var_type" => $v,
+					"var_discount_price" =>  isset($jsonArray['var_discount_price'][$k]) ? $jsonArray['var_discount_price'][$k] : 0,
+					'created_at' => CURRENT_DATETIME,
+				);
+			}
+
+			$resp2 = $this->ProductModel->save_varient($varient_array);
+			$this->db->trans_complete();
+
+			if ($resp > 0) {
+				$result["message"] = "successfully inserted data";
+				$this->responsedata(200, 'success', $result);
+			} else {
+				$result["message"] = "Something went wrong";
+				$this->responsedata(400, 'failed', $result);
+			}
+		} else {
+			$resp["message"] = "varient data is invalid";
+			return $this->responsedata(400, 'failed', $resp);
 		}
 	}
 
@@ -238,7 +265,7 @@ class Uploadimages extends CI_Controller
 		if (isset($_FILES['image']) && !empty($_FILES['image'])) {
 			$file_type = $_FILES['image']['type']; //returns the mimetype
 
-			$allowed = array("image/jpeg", "image/jpg","image/png", "application/png");
+			$allowed = array("image/jpeg", "image/jpg", "image/png", "application/png");
 			foreach ($file_type as $fl) {
 				if (!in_array($fl, $allowed)) {
 					$resp["message"] = "Only jpeg,jpg,png is allowed image type";
@@ -323,7 +350,7 @@ class Uploadimages extends CI_Controller
 		if (isset($_FILES['image']) && !empty($_FILES['image'])) {
 			$file_type = $_FILES['image']['type']; //returns the mimetype
 
-			$allowed = array("image/jpeg", "image/jpg","image/png", "application/png");
+			$allowed = array("image/jpeg", "image/jpg", "image/png", "application/png");
 			foreach ($file_type as $fl) {
 				if (!in_array($fl, $allowed)) {
 					$resp["message"] = "Only jpeg,jpg,png is allowed image type";
@@ -343,7 +370,7 @@ class Uploadimages extends CI_Controller
 		$config['upload_path'] = ASSETS_PATH . $imgpath;
 		$config['allowed_types'] = 'jpg|jpeg|png|gif';
 		$config['max_size'] = '5000'; // max_size in kb that means 5mb
-		
+
 		$this->load->library('upload', $config);
 
 		$images = array();
