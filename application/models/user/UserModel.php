@@ -21,4 +21,12 @@ class UserModel extends CI_Model {
         );
         return $this->MY_Model->insertData($array);
     }
+    function save_order_design($data)
+    {
+        $array = array(
+            'tableName' => 'order_design_details',
+            'insert'    =>  $data
+        );
+        return $this->MY_Model->insertData($array);
+    }
 }

@@ -57,7 +57,6 @@ class UserController extends CI_Controller
         if (isset($jsonArray['user_mobile']) && !empty($jsonArray['user_mobile'])) {
             $user_mobile = trim($jsonArray['user_mobile']);
         } else {
-
             $resp["message"] = "Unique id is required";
             return $this->responsedata(400, 'failed', $resp);
         }
@@ -83,6 +82,28 @@ class UserController extends CI_Controller
             return $this->responsedata(400, 'failed', $resp);
         }
 
+        if (isset($jsonArray['pdt_id']) && !empty($jsonArray['pdt_id'])) {
+            $prdid =  trim($jsonArray['pdt_id']);
+        } else {
+            $resp["message"] = "Product ID is required";
+            return $this->responsedata(400, 'failed', $resp);
+        }
+
+        if (isset($jsonArray['var_id']) && !empty($jsonArray['var_id'])) {
+            $var_id =  trim($jsonArray['var_id']);
+        } else {
+            $resp["message"] = "Varient ID is required";
+            return $this->responsedata(400, 'failed', $resp);
+        }
+
+        if (isset($jsonArray['qty']) && !empty($jsonArray['qty'])) {
+            $qty =  trim($jsonArray['qty']);
+        } else {
+            $resp["message"] = "Quantity is required";
+            return $this->responsedata(400, 'failed', $resp);
+        }
+
+		$this->db->trans_start();
         $array = array(
             "user_mobile" => $user_mobile,
             "unique_deviceid" => $unique_deviceid,
@@ -91,12 +112,19 @@ class UserController extends CI_Controller
             "amount" => $amount,
             'order_created_date' => CURRENT_DATETIME,
             'updated_at' => NULL
-           
         );
+        $resp_id = $this->UserModel->save_order($array);
 
-        $resp = $this->UserModel->save_order($array);
-
-        if ($resp > 0) {
+        $array2 = array(
+            "order_id" => $resp_id,
+            "pdt_id" => $prdid,
+            "var_id" => $var_id,
+            "qty" => $qty,
+            'created_at' => CURRENT_DATETIME
+        );
+        $resp2 = $this->UserModel->save_order_design($array2);
+        $this->db->trans_complete();
+        if ($resp2 > 0) {
             $result["message"] = "successfully inserted data";
             $this->responsedata(200, 'success', $result);
         } else {
@@ -105,6 +133,10 @@ class UserController extends CI_Controller
         }
     }
 
+    public function update_user_order(){
+        $result["message"] = "successfully inserted data";
+        $this->responsedata(200, 'success', $result);
+    }
 	public function responsedata($status_code, $status, $data)
     {
         json_output($status_code, array('status' => $status, 'data' => $data));
