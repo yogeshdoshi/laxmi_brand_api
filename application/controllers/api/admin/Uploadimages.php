@@ -231,16 +231,17 @@ class Uploadimages extends CI_Controller
 			$resp = $this->ProductModel->save_product($array);
 
 			$varient_array = array();
-
+			$i=1;
 			foreach ($jsonArray['var_type'] as $k => $v) {
 				$varient_array[] = array(
 					"pdt_id" => $resp,
-					"var_id" =>  $k,
+					"var_id" =>  $i,
 					"is_active" =>  isset($jsonArray['var_is_active'][$k]) ? $jsonArray['var_is_active'][$k] : 1,
 					"var_type" => $v,
 					"var_discount_price" =>  isset($jsonArray['var_discount_price'][$k]) ? $jsonArray['var_discount_price'][$k] : 0,
 					'created_at' => CURRENT_DATETIME,
 				);
+				$i++;
 			}
 
 			$resp2 = $this->ProductModel->save_varient($varient_array);
