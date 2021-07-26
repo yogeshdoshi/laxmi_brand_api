@@ -41,6 +41,9 @@ class ProductController extends CI_Controller
                 } else if ($sort == 2) {
                     $order_by .= "  s.pdt_name DESC,";
                 }
+				else if($sort == 0) {
+                    $order_by .= "  s.pdt_id DESC,";
+                }
             }
             if (isset($popularity)) {
                 if ($popularity == 1) {
