@@ -15,18 +15,30 @@ class ProductModel extends CI_Model {
                 'uri_segment' => 4
             ),
             'data' => array(
-                'getType'   => 'result',
+                'getType'   => 'resultArray',
                 'tableName' => 'product_master as s',
-                'select'    => 's.*,s.pdt_id as product_id,c.is_active as varient_isactive,c.rowid ,c.var_id ,c.is_active as varient_status ,c.pdt_price_actual_30gm,c.pdt_price_discounted_30gm,c.pdt_price_enable_30gm,c.pdt_price_actual_60gm,c.pdt_price_discounted_60gm,c.pdt_price_enable_60gm,c.pdt_price_actual_100gm,c.pdt_price_discounted_100gm,c.pdt_price_enable_100gm,c.pdt_price_actual_250gm,c.pdt_price_discounted_250gm,c.pdt_price_enable_250gm,c.pdt_price_actual_500gm,c.pdt_price_actual_500gm ,c.pdt_price_discounted_500gm	 ,c.pdt_price_enable_500gm ,c.pdt_price_actual_1kg ,c.pdt_price_discounted_1kg ,c.pdt_price_enable_1kg ,c.pdt_price_actual_2kg ,c.pdt_price_discounted_2kg ,c.pdt_price_enable_2kg ,c.pdt_price_actual_3kg ,c.pdt_price_discounted_3kg ,c.pdt_price_enable_3kg ,c.pdt_price_actual_5kg ,c.pdt_price_discounted_5kg ,c.pdt_price_enable_5kg,cm.category_name',
-                'joinType' => "Left",
-				'join' => array('product_variants as c' => 's.pdt_id = c.pdt_id','category_master as cm'=>'s.category_id = cm.category_id'),
-                'where' 	=> $where,
-                'orderBy' => $order_by 
+                'select'    => 's.*',
+                'where' => $where,
+                'orderBy' => $order_by,
+                'groupBy' =>'s.pdt_id'
             )
         );
-        
         $resp = $this->make_pagination->paginate($array);
-   
+       
+        foreach($resp['result'] as $k=>$val){
+
+            $data= array(
+                'getType'   => 'result',
+                'tableName' => 'product_variants as s',
+                'select'    => '*',
+                'where'	 	=> array('pdt_id' => $val['pdt_id'])
+            );
+            $result = $this->MY_Model->getData($data);
+            $resp['result'][$k]=array(
+                'product'=>$val,
+                'varient'=>$result
+            );
+        }
         return $resp;
         
     }

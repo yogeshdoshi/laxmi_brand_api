@@ -30,7 +30,7 @@ class ProductController extends CI_Controller
         } else {
             $response['status'] = "200";
 			$category_id=isset($jsonArray['category_id'])?$jsonArray['category_id']:0;
-            $where = "s.is_deleted IS NULL and s.deleted_at IS NULL and s.is_active=1 and cm.is_active=1 and cm.is_deleted IS NULL and cm.is_deleted IS NULL and cm.category_id=".$category_id;
+            $where = "s.is_deleted IS NULL and s.deleted_at IS NULL and s.is_active=1 and s.category_id=".$category_id;
             $sort = $jsonArray['sort'];
             $popularity = $jsonArray['popularity'];
             $order_by = "";
