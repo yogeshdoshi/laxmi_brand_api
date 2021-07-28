@@ -101,3 +101,9 @@ ALTER TABLE `product_variants` DROP `pdt_price_actual_30gm`, DROP `pdt_price_dis
 ALTER TABLE `product_variants` ADD `var_type` VARCHAR(50) NULL DEFAULT NULL AFTER `is_active`, ADD `var_discount_price` INT NULL DEFAULT NULL AFTER `var_type`, ADD `var_actual_price` INT NULL DEFAULT NULL AFTER `var_discount_price`, ADD `created_at` DATETIME NULL DEFAULT NULL AFTER `var_actual_price`, ADD `updated_at` DATETIME NULL DEFAULT NULL AFTER `created_at`;
 
 ALTER TABLE `product_variants` DROP INDEX `pdt_id`;
+
+
+
+
+ALTER TABLE `order_master` ADD `discount_amount` FLOAT NULL AFTER `order_status`;
+ALTER TABLE `order_design_details` ADD `created_at` DATETIME NULL AFTER `qty`;
