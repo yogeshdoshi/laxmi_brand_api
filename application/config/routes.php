@@ -61,7 +61,7 @@ $route['admin/product/list/(:num)'] = 'api/admin/ProductController/get_product/$
 $route['admin/product/detail'] = 'api/admin/ProductController/product_detail';
 $route['admin/product/delete'] = 'api/admin/ProductController/delete';
 $route['admin/product/save'] = 'api/admin/ProductController/insert_product';
-$route['admin/product/update'] = 'api/admin/ProductController/update_product';
+//$route['admin/product/update'] = 'api/admin/ProductController/update_product';
 
 // category
 $route['admin/category/list'] = 'api/admin/CategoryController/get_category';
@@ -102,6 +102,7 @@ $route['admin/upload'] = 'api/admin/LoginController/_uploadimg';
 
 $route['admin/upload/images'] = 'api/admin/Uploadimages/index';
 $route['admin/product/store'] = 'api/admin/Uploadimages/saveproduct';
+$route['admin/product/update'] = 'api/admin/Uploadimages/updateproduct';
 $route['admin/upload/slider'] = 'api/admin/Uploadimages/saveslider';
 $route['admin/upload/advertisement'] = 'api/admin/Uploadimages/saveadvertisement';
 

@@ -9,7 +9,7 @@ class OrderModel extends CI_Model {
         $data = array(
             'getType' => 'resultArray',
             'tableName' => 'order_master as s',
-            'select' => 's.*,c.*',
+            'select' => 's.*',
             'joinType' => "Left",
             'join' => array('user as c' => 's.user_id = c.user_id'),
             'where' => $where,
@@ -65,8 +65,7 @@ class OrderModel extends CI_Model {
                                 'tableName' => 'order_design_details as odd',
                                 'joinType' => 'left',
                                 'join' => array(
-                                    'product_variants as pv' => 'odd.pdt_id = pv.pdt_id',
-                                    'product_variants as pv_1' => 'odd.var_id = pv_1.var_id'
+                                    'product_variants as pv' => 'odd.pdt_id = pv.pdt_id and odd.var_id = pv.var_id',
                                 ),
                                 'select' => 'pv.rowid, pv.var_id, pv.var_type, pv.var_discount_price, pv.var_actual_price, odd.qty as var_qty',
                                 'where' => $whereVariant,

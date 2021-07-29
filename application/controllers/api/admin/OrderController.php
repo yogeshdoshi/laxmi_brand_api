@@ -57,6 +57,27 @@ class OrderController extends CI_Controller {
             return $this->responsedata(400, 'failed', $resp);
         }
 
+        if (isset($jsonArray['address']) && !empty($jsonArray['address'])) {
+            $address = trim($jsonArray['address']);
+        } else {
+            $resp["message"] = "Address is required";
+            return $this->responsedata(400, 'failed', $resp);
+        }
+
+        if (isset($jsonArray['pincode']) && !empty($jsonArray['pincode'])) {
+            $pincode = trim($jsonArray['pincode']);
+        } else {
+            $resp["message"] = "Pincode is required";
+            return $this->responsedata(400, 'failed', $resp);
+        }
+
+        if (isset($jsonArray['landmark']) && !empty($jsonArray['landmark'])) {
+            $landmark = trim($jsonArray['landmark']);
+        } else {
+            $resp["message"] = "Landmark is required";
+            return $this->responsedata(400, 'failed', $resp);
+        }
+
         if (isset($jsonArray['products']) && count($jsonArray['products']) > 0) {
             foreach ($jsonArray['products'] AS $product_list) {
                 if (!array_key_exists('pdt_id', $product_list)) {
@@ -85,6 +106,10 @@ class OrderController extends CI_Controller {
             'order_status' => $order_status,
             'discount_amount' => (isset($jsonArray['discount_amount']) && $jsonArray['discount_amount'] != '') ? $jsonArray['discount_amount'] : NULL,
             'amount' => $amount,
+            'address' => $address,
+            'city' => (isset($jsonArray['city']) && $jsonArray['city'] != '') ? $jsonArray['city'] : 'surat',
+            'pincode' => $pincode,
+            'landmark' => $landmark,
             'updated_at' => CURRENT_DATETIME
         );
         $resp = $this->OrderModel->update_order($pid, $array);

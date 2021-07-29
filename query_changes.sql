@@ -107,3 +107,8 @@ ALTER TABLE `product_variants` DROP INDEX `pdt_id`;
 
 ALTER TABLE `order_master` ADD `discount_amount` FLOAT NULL AFTER `order_status`;
 ALTER TABLE `order_design_details` ADD `created_at` DATETIME NULL AFTER `qty`;
+
+
+
+
+ALTER TABLE `order_master` ADD `address` VARCHAR(255) NULL AFTER `amount`, ADD `city` VARCHAR(255) NOT NULL DEFAULT 'surat' AFTER `address`, ADD `pincode` INT(6) NULL AFTER `city`, ADD `landmark` VARCHAR(255) NULL AFTER `pincode`;
