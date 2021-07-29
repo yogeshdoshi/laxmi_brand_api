@@ -28,22 +28,34 @@ class ProductController extends CI_Controller {
 
             $where = "s.is_deleted IS NULL and s.deleted_at IS NULL and s.is_active=1";
             $sort = $jsonArray['sort'];
+            $price = $jsonArray['price'];
             $popularity = $jsonArray['popularity'];
             $order_by = "";
 
             if (isset($sort) && $sort > 0) {
-                if ($sort == 1) {
+                /* if ($sort == 1) {
+                  $order_by .= " s.pdt_name ASC,";
+                  } else if ($sort == 2) {
+                  $order_by .= "  s.pdt_name DESC,";
+                  } else if ($sort == 0) {
+                  $order_by .= "  s.pdt_id DESC,";
+                  } */
 
+                if ($sort == 1) {
                     $order_by .= " s.pdt_name ASC,";
-                } else if ($sort == 2) {
-                    $order_by .= "  s.pdt_name DESC,";
                 } else if ($sort == 0) {
-                    $order_by .= "  s.pdt_id DESC,";
+                    $order_by .= "  s.pdt_name DESC,";
                 }
             }
+            
+            if (isset($price)) {
+                if ($price == 1) {
+                    $order_by .= " pv.var_actual_price ASC";
+                }
+            }
+            
             if (isset($popularity)) {
                 if ($popularity == 1) {
-
                     $order_by .= " s.populairty DESC";
                 }
             }

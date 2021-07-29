@@ -56,8 +56,6 @@ class OrderModel extends CI_Model {
                     foreach ($product_id_list AS $product_id_item) {
                         if ($product_id != $product_id_item['pdt_id']) {
                             $product_id = $product_id_item['pdt_id'];
-                            echo $product_id . '<br />';
-
                             $whereVariant = 'odd.order_id = "' . $result_item['order_id'] . '" and odd.pdt_id = "' . $product_id . '"';
                             $order_design_variant_data = array(
                                 'getType' => 'resultArray',

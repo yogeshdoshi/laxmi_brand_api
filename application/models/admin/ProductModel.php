@@ -15,6 +15,10 @@ class ProductModel extends CI_Model {
             'data' => array(
                 'getType' => 'resultArray',
                 'tableName' => 'product_master as s',
+                'joinType' => 'left',
+                'join' => array(
+                    'product_variants as pv' => 's.pdt_id = pv.pdt_id',
+                ),
                 'select' => 's.*',
                 'where' => $where,
                 'orderBy' => $order_by,
@@ -24,7 +28,6 @@ class ProductModel extends CI_Model {
         $resp = $this->make_pagination->paginate($array);
 
         foreach ($resp['result'] as $k => $val) {
-
             $data = array(
                 'getType' => 'result',
                 'tableName' => 'product_variants as s',
