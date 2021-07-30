@@ -15,10 +15,11 @@ class UserController extends CI_Controller {
 
     public function save_device() {
         $jsonArray = json_decode(file_get_contents('php://input'), true);
+        $uniqueUserId=null;
+        $contactnumber=null;
         if (isset($jsonArray['uniqueUserId']) && !empty($jsonArray['uniqueUserId'])) {
             $uniqueUserId = trim($jsonArray['uniqueUserId']);
         } else {
-
             $resp["message"] = "Unique id is required";
             return $this->responsedata(400, 'failed', $resp);
         }
@@ -30,18 +31,25 @@ class UserController extends CI_Controller {
             return $this->responsedata(400, 'failed', $resp);
         }
 
+          $where = "user_mobile=".$contactnumber." and unique_deviceid='".$uniqueUserId."'";
+         $resp1=$this->UserModel->get_single_user($where);
+         if(!empty($resp1)){
+            $resp["message"] = "User already exists";
+            $resp["user_id"] = $resp1[0]->user_id;
+            return $this->responsedata(409, 'failed', $resp);
+         }
+
         $array = array(
-            "uniqueUserId" => $uniqueUserId,
-            "contactnumber" => $contactnumber,
-            'created_at' => CURRENT_DATETIME,
-            'updated_at' => NULL,
-            'deleted_at' => NULL
+            "unique_deviceid" => $uniqueUserId,
+            "user_mobile" => $contactnumber,
+            'created_at' => CURRENT_DATETIME        
         );
 
         $resp = $this->UserModel->save_deviceid($array);
 
         if ($resp > 0) {
             $result["message"] = "successfully inserted data";
+            $result["user_id"] = $resp;
             $this->responsedata(200, 'success', $result);
         } else {
             $result["message"] = "Something went wrong";

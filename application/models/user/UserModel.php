@@ -6,7 +6,7 @@ class UserModel extends CI_Model {
 
     function save_deviceid($data) {
         $array = array(
-            'tableName' => 'user_device',
+            'tableName' => 'user',
             'insert' => $data
         );
         return $this->MY_Model->insertData($array);
@@ -28,5 +28,18 @@ class UserModel extends CI_Model {
         );
         return $this->MY_Model->insertData($array);
     }
+
+     function get_single_user($where) {
+        $array = array(
+            'tableName' => 'user',
+            'select' =>  'user_id',
+            'getType'=>'result',
+            'where'=>$where
+        );
+        return $this->MY_Model->getData($array);
+    }
+
+
+
 
 }
