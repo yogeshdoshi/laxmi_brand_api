@@ -56,8 +56,14 @@ class ProductController extends CI_Controller
         }
     }
 
+    public function get_whats_app_link(){
+        $resp=$this->ProductModel->fetch_whatsapp_grp_link();
+    }
+
+
 	public function responsedata($status_code, $status, $data)
     {
         json_output($status_code, array('status' => $status, 'data' => $data));
     }
+
 }

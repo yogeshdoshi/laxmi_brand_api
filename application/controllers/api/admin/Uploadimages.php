@@ -8,7 +8,8 @@ class Uploadimages extends CI_Controller {
         parent::__construct();
         $this->load->database();
         $this->load->model('admin/UploadModel');
-        $this->load->model('admin/ProductModel');
+        $this->load->model('admin/ProductModel');                
+        $this->load->helper();
     }
 
     public function index() {
@@ -288,6 +289,9 @@ class Uploadimages extends CI_Controller {
         if (!file_exists(ASSETS_PATH . 'product/' . $pdt_name)) {
             mkdir(ASSETS_PATH . 'product/' . $pdt_name, 0777, true);
         }
+
+        if(isset($_FILES['image'])){
+        $files = $_FILES['image'];
         $imgpath = "product/" . $pdt_name;
         // $imgname = "PR_" . $uniqueId;
         $config['upload_path'] = ASSETS_PATH . $imgpath;
@@ -298,8 +302,6 @@ class Uploadimages extends CI_Controller {
         $this->load->library('upload', $config);
 
         $images = array();
-
-        $files = $_FILES['image'];
 
         foreach ($files['name'] as $key => $image) {
             $_FILES['images[]']['name'] = $files['name'][$key];
@@ -332,6 +334,9 @@ class Uploadimages extends CI_Controller {
         }
 
         $productimages = implode(', ', $img_path);
+    }else{
+
+    }
 
         if (isset($jsonArray['category_id']) && !empty($jsonArray['category_id'])) {
             $category_id = trim($jsonArray['category_id']);
@@ -417,7 +422,7 @@ class Uploadimages extends CI_Controller {
 
         if (($var_is_active_count == $var_discount_price_count) && ($var_is_active_count == $var_type_count) && ($var_is_active_count == $var_actual_price_count)) {
             $this->db->trans_start();
-
+            if(isset($_FILES['images'])){
             $array = array(
                 'pdt_name' => $pname,
                 'category_id' => $category_id,
@@ -431,6 +436,21 @@ class Uploadimages extends CI_Controller {
                 'deleted_at' => NULL,
                 'is_deleted' => NULL
             );
+            }else{
+                 $array = array(
+                'pdt_name' => $pname,
+                'category_id' => $category_id,
+                'pdt_discount_display' => $pdt_discount_display,
+                'pdt_about' => $pdt_about,
+                'pdt_storage_uses' => $pdt_storage_uses,
+                'pdt_other_info' => $pdt_other_info,
+                'is_active' => $is_active,                
+                'updated_at' => CURRENT_DATETIME,
+                'deleted_at' => NULL,
+                'is_deleted' => NULL
+            );
+
+            }
 
             $resp = $this->ProductModel->update_product($pdt_id, $array);
             $this->ProductModel->delete_variant($pdt_id);
@@ -483,6 +503,7 @@ class Uploadimages extends CI_Controller {
             return $this->responsedata(400, 'failed', $resp);
         }
 
+
         $pdt_name = "";
         if (!file_exists(ASSETS_PATH . 'slider')) {
             mkdir(ASSETS_PATH . 'slider', 0777, true);
@@ -494,8 +515,18 @@ class Uploadimages extends CI_Controller {
         $config['max_size'] = '5000'; // max_size in kb that means 5mb
         // $config['file_name'] = $imgname;
 
+        //trying to delete all existig assets from existing folder as new are being uploaded
+        $path=ASSETS_PATH . 'slider';
+        $this->load->helper("file"); // load the helper
+        delete_files($path, true);
         $this->load->library('upload', $config);
-
+        
+        //soft deleting existing images paths from db
+        $update_result=$this->UploadModel->delete_existing_promotional_slider();
+        if(!($update_result>0)){
+        $result["message"] = "Unable to delete the data";
+        $this->responsedata(400, 'failed', $result);
+        }
         $images = array();
 
         $files = $_FILES['image'];
@@ -506,14 +537,11 @@ class Uploadimages extends CI_Controller {
             $_FILES['images[]']['tmp_name'] = $files['tmp_name'][$key];
             $_FILES['images[]']['error'] = $files['error'][$key];
             $_FILES['images[]']['size'] = $files['size'][$key];
-
-            $uniqueId = time() . '-' . mt_rand();
-            $fileName = "SL_" . $uniqueId;
-
+            $uniqueId = time() . '-' . mt_rand();  
+            $ext = pathinfo($files['name'][$key], PATHINFO_EXTENSION);          
+            $fileName = "SL_" . $uniqueId . '.' . $ext;
             $images[] = $fileName;
-
             $config['file_name'] = $fileName;
-
             $this->upload->initialize($config);
 
             if ($this->upload->do_upload('images[]')) {
@@ -530,7 +558,7 @@ class Uploadimages extends CI_Controller {
         }
         $img_path = array();
         foreach ($images as $k => $im) {
-            $img[] = base_url() . ASSETS_PATH . 'slider/' . $im . ".jpg";
+            $img[] = base_url() . ASSETS_PATH . 'slider/' . $im;
             $img_path = $img;
         }
 
@@ -576,7 +604,19 @@ class Uploadimages extends CI_Controller {
         $config['allowed_types'] = 'jpg|jpeg|png|gif';
         $config['max_size'] = '5000'; // max_size in kb that means 5mb
 
+
+    //trying to delete all existig assets from existing folder as new are being uploaded
+        $path=ASSETS_PATH . $imgpath;
+        $this->load->helper("file"); // load the helper
+        delete_files($path, true);
         $this->load->library('upload', $config);
+        
+        //soft deleting existing images paths from db
+        $update_result=$this->UploadModel->delete_existing_advertisement_slider_img();
+        if(!($update_result>0)){
+        $result["message"] = "Unable to delete the data";
+        $this->responsedata(400, 'failed', $result);
+        }
 
         $images = array();
 
@@ -588,9 +628,9 @@ class Uploadimages extends CI_Controller {
             $_FILES['images[]']['tmp_name'] = $files['tmp_name'][$key];
             $_FILES['images[]']['error'] = $files['error'][$key];
             $_FILES['images[]']['size'] = $files['size'][$key];
-
-            $uniqueId = time() . '-' . mt_rand();
-            $fileName = "SL_" . $uniqueId;
+              $uniqueId = time() . '-' . mt_rand();  
+             $ext = pathinfo($files['name'][$key], PATHINFO_EXTENSION);          
+            $fileName = "ADV_SL_" . $uniqueId . '.' . $ext;
 
             $images[] = $fileName;
 
@@ -612,7 +652,7 @@ class Uploadimages extends CI_Controller {
         }
         $img_path = array();
         foreach ($images as $k => $im) {
-            $img[] = base_url() . ASSETS_PATH . 'advertisement/' . $im . ".jpg";
+            $img[] = base_url() . ASSETS_PATH . 'advertisement/' . $im ;
             $img_path = $img;
         }
 
@@ -630,6 +670,37 @@ class Uploadimages extends CI_Controller {
         } else {
             $result["message"] = "Something went wrong";
             $this->responsedata(400, 'failed', $result);
+        }
+    }
+
+
+     public function get_promotional_slider() {
+
+        $method = $_SERVER['REQUEST_METHOD'];
+        if ($method != 'GET') {
+            $this->responsedata(400, 'failed', 'Bad request!');
+        } else {
+            $response['status'] = "200";
+            $where = "is_deleted IS NULL and deleted_at IS NULL";
+            // $sort=$this->input->post('sort');
+            // $popularity=$this->input->post('popularity');           
+            $resp = $this->UploadModel->get_existing_active_promotional_sliders($where);  
+            $this->responsedata(200, 'success', $resp);
+        }
+    }
+
+     public function get_marketing_slider() {
+
+        $method = $_SERVER['REQUEST_METHOD'];
+        if ($method != 'GET') {
+            $this->responsedata(400, 'failed', 'Bad request!');
+        } else {
+            $response['status'] = "200";
+            $where = "is_deleted IS NULL and deleted_at IS NULL";
+            // $sort=$this->input->post('sort');
+            // $popularity=$this->input->post('popularity');           
+            $resp = $this->UploadModel->get_existing_active_marketing_sliders($where);  
+            $this->responsedata(200, 'success', $resp);
         }
     }
 

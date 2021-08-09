@@ -112,3 +112,4 @@ ALTER TABLE `order_design_details` ADD `created_at` DATETIME NULL AFTER `qty`;
 
 
 ALTER TABLE `order_master` ADD `address` VARCHAR(255) NULL AFTER `amount`, ADD `city` VARCHAR(255) NOT NULL DEFAULT 'surat' AFTER `address`, ADD `pincode` INT(6) NULL AFTER `city`, ADD `landmark` VARCHAR(255) NULL AFTER `pincode`;
+RENAME TABLE image_slider_master TO image_promotional_slider_master;

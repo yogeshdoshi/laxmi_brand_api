@@ -65,6 +65,7 @@ $route['admin/product/save'] = 'api/admin/ProductController/insert_product';
 
 // category
 $route['admin/category/list'] = 'api/admin/CategoryController/get_category';
+
 $route['admin/category/list/(:num)'] = 'api/admin/CategoryController/get_category/$1';
 $route['admin/category/insert'] = 'api/admin/CategoryController/insert_category';
 $route['admin/category/update'] = 'api/admin/CategoryController/update_category';
@@ -87,6 +88,7 @@ $route['admin/offer/update'] = 'api/admin/OfferController/update_offer';
 $route['admin/offer/delete'] = 'api/admin/OfferController/delete_offer';
 $route['admin/offer/detail'] = 'api/admin/OfferController/offer_detail';
 
+
 // order
 $route['admin/order/list'] = 'api/admin/OrderController/get_order';
 $route['admin/order/list/(:num)'] = 'api/admin/OrderController/get_order/$1';
@@ -98,13 +100,22 @@ $route['admin/login'] = 'api/admin/LoginController/login';
 $route['admin/pal'] = 'api/admin/LoginController/pal';
 $route['admin/fileupload'] = 'api/admin/LoginController/_fileupload';
 
+$route['admin/whatsappgrplink']='api/admin/ProductController/get_whats_app_link';
+$route['admin/whatsappgrplink/edit']='api/admin/ProductController/edit_whats_app_link';
+
 $route['admin/upload'] = 'api/admin/LoginController/_uploadimg';
 
 $route['admin/upload/images'] = 'api/admin/Uploadimages/index';
 $route['admin/product/store'] = 'api/admin/Uploadimages/saveproduct';
 $route['admin/product/update'] = 'api/admin/Uploadimages/updateproduct';
-$route['admin/upload/slider'] = 'api/admin/Uploadimages/saveslider';
-$route['admin/upload/advertisement'] = 'api/admin/Uploadimages/saveadvertisement';
+
+
+
+$route['admin/upload/promotional_banner'] = 'api/admin/Uploadimages/saveslider';
+$route['admin/upload/advertisement_slider'] = 'api/admin/Uploadimages/saveadvertisement';
+$route['admin/get_promotional_slider']='api/admin/Uploadimages/get_promotional_slider';
+$route['admin/get_marketing_advertisement_main_slider']='api/admin/Uploadimages/get_marketing_slider';
+
 
 // user
 $route['user/product/list'] = 'api/user/ProductController/get_product';
@@ -116,3 +127,9 @@ $route['user/category/list/(:num)'] = 'api/user/CategoryController/get_category/
 $route['user/save_device'] = 'api/user/UserController/save_device';
 $route['user/save_order'] = 'api/user/UserController/save_order';
 $route['user/order/list'] = 'api/user/UserController/get_order';
+
+
+//promtoional slider and Marketing main slider 
+
+
+

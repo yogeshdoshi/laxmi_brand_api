@@ -335,6 +335,43 @@ class ProductController extends CI_Controller {
         }
     }
 
+  public function get_whats_app_link(){
+     $method = $_SERVER['REQUEST_METHOD'];
+        if ($method != 'GET') {
+            $this->responsedata(400, 'failed', 'Bad request!');
+        } else {
+        $resp=$this->ProductModel->fetch_whatsapp_grp_link();
+        $result["message"] = "successfully retrieved data";
+        $result["whatsapp_grp_redirect_link"]=$resp[0]->grp_chat_link;
+            $this->responsedata(200, 'success', $result);
+        }
+    }
+
+    public function edit_whats_app_link(){
+     $method = $_SERVER['REQUEST_METHOD'];
+        if ($method != 'POST') {
+            $this->responsedata(400, 'failed', 'Bad request!');
+        } else {
+             $jsonArray = json_decode(file_get_contents('php://input'), true);
+        if (isset($jsonArray['new_whatsapp_grp_link']) && !empty($jsonArray['new_whatsapp_grp_link'])) {
+            $whatsapp_link = trim($jsonArray['new_whatsapp_grp_link']);            
+        } else {
+            $resp["message"] = "new_whatsapp_grp_link param is required";
+            return $this->responsedata(400, 'failed', $resp);
+        }
+
+        $resp=$this->ProductModel->update_whatsapp_grp_link($whatsapp_link);
+        if($resp>0){            
+        $result["message"] = "successfully updated data";        
+        $this->responsedata(200, 'success', $result);
+        } else{       
+            $result["message"] = "successfully updated data";        
+        $this->responsedata(200, 'success', $result);
+        }
+
+        }
+    }
+
     public function responsedata($status_code, $status, $data) {
         json_output($status_code, array('status' => $status, 'data' => $data));
     }

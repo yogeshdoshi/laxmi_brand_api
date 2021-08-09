@@ -145,4 +145,24 @@ class ProductModel extends CI_Model {
         $this->MY_Model->updateData($array);
     }
 
+    function fetch_whatsapp_grp_link() {
+        $data = array(
+            'getType' => 'result',
+            'tableName' => 'whatsapp_grp',
+            'select' => 'grp_chat_link'
+        );      
+           $result = $this->MY_Model->getData($data);        
+        return $result;
+    }
+
+     function update_whatsapp_grp_link($whatsapp_link) {        
+        $data = array(
+            'tableName' => 'whatsapp_grp',
+            'update' => array(
+                'grp_chat_link' => $whatsapp_link                
+            )
+        );      
+           $result = $this->MY_Model->updateData($data);        
+        return $result;
+    }    
 }

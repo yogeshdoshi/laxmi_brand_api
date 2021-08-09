@@ -58,7 +58,7 @@ class UserController extends CI_Controller {
     }
 
     public function save_order() {
-        $jsonArray = json_decode(file_get_contents('php://input'), true);
+        $jsonArray = json_decode(file_get_contents('php://input'), true);        
         if (isset($jsonArray['user_mobile']) && !empty($jsonArray['user_mobile'])) {
             $user_mobile = trim($jsonArray['user_mobile']);
         } else {

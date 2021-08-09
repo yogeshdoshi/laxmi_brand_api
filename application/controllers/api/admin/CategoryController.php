@@ -56,7 +56,7 @@ class CategoryController extends CI_Controller {
 
 
         // check same category available
-        $check = $this->CategoryModel->fetch_single_category($category_name);
+        $check = $this->CategoryModel->fetch_single_category_single_category($category_name);
         if ($check > 0) {
             $resp["message"] = "Category already exist!";
             return $this->responsedata(400, 'failed', $resp);
@@ -79,6 +79,10 @@ class CategoryController extends CI_Controller {
         $files = $_FILES['image'];
 
         foreach ($files['name'] as $key => $image) {
+
+            print_r($_FILES['image']);
+            echo 'this is key'.$key;
+            echo 'this is image'.$image;
             $_FILES['images[]']['name'] = $files['name'][$key];
             $_FILES['images[]']['type'] = $files['type'][$key];
             $_FILES['images[]']['tmp_name'] = $files['tmp_name'][$key];
